@@ -1,22 +1,22 @@
-import {
-  SignedIn,
-  SignedOut,
-  SignOutButton,
-  SignUpButton,
-} from "@clerk/nextjs";
+import CTA from "@/components/landing/CTA";
+import Footer from "@/components/landing/Footer";
+import Header from "@/components/landing/Header";
+import Hero from "@/components/landing/Hero";
+import HowItWork from "@/components/landing/HowItWork";
+import PricingSection from "@/components/landing/PricingSection";
+import WhatToAsk from "@/components/landing/WhatToAsk";
+
 
 export default function Home() {
   return (
     <>
-        <h1>Home Page</h1>
-        {/* if user sign out display SignUp Button for him */}
-        <SignedOut>
-          <SignUpButton mode="modal">Sign Up</SignUpButton>
-        </SignedOut>
-        {/* if user sign in display SignOut Button for him */}
-        <SignedIn>
-          <SignOutButton>Log out</SignOutButton>
-        </SignedIn>
+    <Header />
+    <Hero />
+    <HowItWork />
+    <WhatToAsk />
+    <PricingSection />
+    <CTA />
+    <Footer />
     </>
   );
 }
