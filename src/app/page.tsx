@@ -5,18 +5,24 @@ import Hero from "@/components/landing/Hero";
 import HowItWork from "@/components/landing/HowItWork";
 import PricingSection from "@/components/landing/PricingSection";
 import WhatToAsk from "@/components/landing/WhatToAsk";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
+export default async function Home() {
+  const user = await currentUser();
 
-export default function Home() {
+  if (user) {
+    redirect("/dashboard")
+  }
   return (
     <>
-    <Header />
-    <Hero />
-    <HowItWork />
-    <WhatToAsk />
-    <PricingSection />
-    <CTA />
-    <Footer />
+      <Header />
+      <Hero />
+      <HowItWork />
+      <WhatToAsk />
+      <PricingSection />
+      <CTA />
+      <Footer />
     </>
   );
 }
