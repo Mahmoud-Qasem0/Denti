@@ -1,7 +1,12 @@
-import React from "react";
+import Navbar from "@/components/Navbar";
+import { FC, JSX } from "react";
 
-const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+const DashboardPage: FC = (): JSX.Element => {
+  return (
+    <div>
+      <Navbar />
+    </div>
+  );
 };
 
 export default DashboardPage;
