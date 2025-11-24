@@ -6,6 +6,7 @@ interface WelcomeSectionProps {
   title: string;
   desc: string;
   icon: ReactNode;
+  badgeIcon?: ReactNode;
 }
 
 const WelcomeSection: FC<WelcomeSectionProps> = ({
@@ -14,12 +15,17 @@ const WelcomeSection: FC<WelcomeSectionProps> = ({
   badge,
   desc,
   icon,
+  badgeIcon,
 }): JSX.Element => {
   return (
     <div className="mb-12 flex items-center justify-between bg-linear-to-br from-primary/10 via-primary/5 to-background rounded-3xl p-8 border border-primary/20">
       <div className="space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full border border-primary/20">
-          <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+          {badgeIcon ? (
+            badgeIcon
+          ) : (
+            <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+          )}
           <span className="text-sm font-medium text-primary">{badge}</span>
         </div>
         <div>
