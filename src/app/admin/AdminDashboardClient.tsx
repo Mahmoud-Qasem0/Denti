@@ -8,6 +8,7 @@ import useGetAppointments from "@/hooks/use-appointments";
 import AdminStats from "@/components/admin/AdminStats";
 import DoctorsManagement from "@/components/admin/DoctorsManagement";
 import Loading from "./Loading";
+import RecentAppointments from "@/components/admin/RecentAppointments";
 
 const AdminDashboardClient: FC = (): JSX.Element => {
   const { user } = useUser();
@@ -64,6 +65,8 @@ const AdminDashboardClient: FC = (): JSX.Element => {
           completedAppointments={stats.completedAppointments}
         />
         <DoctorsManagement />
+
+        <RecentAppointments />
       </div>
     </div>
   );
