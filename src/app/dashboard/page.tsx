@@ -1,5 +1,4 @@
 import ActivityOverview from "@/components/dashboard/ActivityOverview";
-import DentalHealthOverview from "@/components/dashboard/DentalHealthOverview";
 import MainActions from "@/components/dashboard/MainActions";
 import ToothIcon from "@/components/dashboard/ToothIcon";
 import Navbar from "@/components/Navbar";

@@ -4,7 +4,7 @@ import { prisma } from "../prisma";
 import { generateAvatar } from "../utils";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 
 export const getDoctors = async () => {
   try {
@@ -97,6 +97,30 @@ export const updateDoctor = async (input: IUpdateDoctorInput) => {
         throw new Error("Failed to Update Doctor: Doctor not Found");
 
       throw new Error("Failed to Update Doctor");
+    }
+  }
+};
+export const getAvailableDoctors = async () => {
+  try {
+    const availableDoctors = await prisma.doctor.findMany({
+      where: { isActive: true },
+      include: {
+        _count: {
+          select: { Appointment: true },
+        },
+      },
+      orderBy: { name: "asc" },
+    });
+
+    return availableDoctors.map((doctor) => ({
+      ...doctor,
+      appointmentCount: doctor._count.Appointment,
+    }));
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "p2025") throw new Error(error.message);
+
+      throw new Error("Failed to Fetching Available Doctors");
     }
   }
 };

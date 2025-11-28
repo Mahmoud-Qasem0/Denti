@@ -1,12 +1,46 @@
 "use client";
-
-import { getAppointments } from "@/lib/actions/appointments";
-import { useQuery } from "@tanstack/react-query";
+import {
+  bookAppointment,
+  getAppointments,
+  getBookedTimeSlots,
+  getUserAppointments,
+} from "@/lib/actions/appointments";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function useGetAppointments() {
   const result = useQuery({
     queryKey: ["appointments"],
     queryFn: getAppointments,
   });
+  return result;
+}
+export function useBookedTimeSlots(dentistId: string, date: string) {
+  const result = useQuery({
+    queryKey: ["getBookedTimeSlots"],
+    queryFn: () => getBookedTimeSlots(dentistId, date),
+    enabled: !!dentistId && !!date,
+  });
+  return result;
+}
+
+export function useBookAppointment() {
+  const queryClient = useQueryClient();
+  const results = useMutation({
+    mutationFn: bookAppointment,
+    onSuccess: () => {
+      // Invalidate Related Queries to Refresh the data
+      queryClient.invalidateQueries({ queryKey: ["getUserAppointments"] });
+    },
+    onError: (error) => console.log("Error while Book Appointment", error),
+  });
+  return results;
+}
+// Get user-specific appointments
+export function useUserAppointments() {
+  const result = useQuery({
+    queryKey: ["getUserAppointments"],
+    queryFn: getUserAppointments,
+  });
+
   return result;
 }
