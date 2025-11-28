@@ -2,6 +2,20 @@
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "../prisma";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const transformAppointment = (appointment: any) => {
+  return {
+    ...appointment,
+    patientName: `${appointment.user.firstName || ""} ${
+      appointment.user.lastName || ""
+    }`.trim(),
+    patientEmail: appointment.user.email,
+    doctorName: appointment.doctor.name,
+    doctorImageUrl: appointment.doctor.imageUrl || "",
+    date: appointment.date.toISOString().split("T")[0],
+  };
+};
+
 export async function getAppointments() {
   try {
     const appointments = await prisma.appointment.findMany({
@@ -48,7 +62,7 @@ export async function getUserAppointments() {
       orderBy: [{ date: "asc" }, { time: "asc" }],
     });
 
-    const allUserAppointments = appointments.map((appointment) => {
+    const allUserAppointment = appointments.map((appointment) => {
       return {
         ...appointment,
         patientName: `${appointment.user.firstName || ""} ${
@@ -60,11 +74,12 @@ export async function getUserAppointments() {
         date: appointment.date.toISOString().split("T")[0],
       };
     });
-    return allUserAppointments;
+
+    return allUserAppointment;
   } catch (error) {
     if (error instanceof Error) {
       console.log("Error fetching user appointments:", error);
-      // throw Error(error instanceof Error ? error.message : String(error));
+      return [];
     }
   }
 }
@@ -102,6 +117,83 @@ export async function getUserAppointmentStats() {
     if (error instanceof Error) {
       console.log("Error fetching user appointments");
       return { totalAppointments: 0, completedAppointments: 0 };
+    }
+  }
+}
+
+export async function getBookedTimeSlots(dentistId: string, date: string) {
+  try {
+    const appointments = await prisma.appointment.findMany({
+      where: {
+        doctorId: dentistId,
+        date: new Date(date),
+        status: {
+          in: ["COMPLETED", "CONFIRMED"],
+        },
+      },
+      select: { time: true },
+    });
+
+    return appointments.map((appointment) => appointment.time);
+  } catch (error) {
+    console.log("error Fetching Booked Time Slots", error);
+    return [];
+  }
+}
+
+interface BookAppointmentInput {
+  doctorId: string;
+  date: string;
+  time: string;
+  reason?: string;
+}
+export async function bookAppointment(input: BookAppointmentInput) {
+  try {
+    const { userId } = await auth();
+
+    console.log("Authenticated userId:", userId);
+    if (!userId)
+      throw new Error("You must be logged in to book an appointment");
+
+    if (!input.doctorId || !input.date || !input.time) {
+      throw new Error("Doctor, date, and time are required");
+    }
+
+    const user = await prisma.user.findUnique({ where: { clerkId: userId } });
+     console.log("User found in DB:", user);
+     console.log("User found in DB:", user);
+    if (!user)
+      throw new Error(
+        "User not found. Please ensure your account is properly set up."
+      );
+
+    const appointment = await prisma.appointment.create({
+      data: {
+        userId: user.id,
+        doctorId: input.doctorId,
+        date: new Date(input.date),
+        time: input.time,
+        reason: input.reason || "General consultation",
+        status: "CONFIRMED",
+      },
+      include: {
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+        doctor: { select: { name: true, imageUrl: true } },
+      },
+    });
+
+    return transformAppointment(appointment);
+  } catch (error) {
+    if (error instanceof Error) {
+      
+      console.error("Full error details:", error);
+    throw error; // رجع الخطأ الأصلي حتى تظهر التفاصيل
     }
   }
 }
