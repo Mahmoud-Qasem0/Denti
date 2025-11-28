@@ -160,8 +160,8 @@ export async function bookAppointment(input: BookAppointmentInput) {
     }
 
     const user = await prisma.user.findUnique({ where: { clerkId: userId } });
-     console.log("User found in DB:", user);
-     console.log("User found in DB:", user);
+    console.log("User found in DB:", user);
+    console.log("User found in DB:", user);
     if (!user)
       throw new Error(
         "User not found. Please ensure your account is properly set up."
@@ -191,9 +191,8 @@ export async function bookAppointment(input: BookAppointmentInput) {
     return transformAppointment(appointment);
   } catch (error) {
     if (error instanceof Error) {
-      
       console.error("Full error details:", error);
-    throw error; // رجع الخطأ الأصلي حتى تظهر التفاصيل
+      throw new Error(error.message);
     }
   }
 }
