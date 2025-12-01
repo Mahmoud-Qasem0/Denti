@@ -1,36 +1,163 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Denti - AI Voice Dental Assistant
 
-## Getting Started
+Denti AI is an voice-enabled dental assistant built using Next.js, PostgreSQL, Prisma, Clerk, Vapi, Resend, TanStack Query, TailwindCSS, ShadCN, Lucide Icons, and Date‑Fns. It allows clinics to manage appointments, enable AI phone calls, receive email notifications, and provide a smooth admin experien
 
-First, run the development server:
+
+---
+
+## 🚀 Features
+
+* AI Voice Dental Assistant powered by Vapi.
+
+* Clinic Admin Dashboard for managing Doctors and appointments.
+
+**Appointments Page **where patients can book and view appointments.
+
+* Authentication & Authorization using Clerk.
+
+* Email notifications with Resend.
+
+* Database using PostgreSQL + Prisma ORM.
+
+* Smart Date Handling using Date‑Fns.
+
+* UI/UX built with Tailwind, ShadCN UI, and Lucide Icons.
+
+* API communication managed with TanStack React Query.
+
+* Full mobile‑responsive design.
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend & Backend**: Next.js (App Router)
+
+**Database**: Postgres + Prisma ORM
+
+**Auth**: Clerk
+
+**AI Voice**: Vapi
+
+**Email**: Resend
+
+**UI**: TailwindCSS, shadcn UI, lucide-react
+
+**State & Data Fetching**: TanStack React Query
+
+**Utilities**: date-fns
+
+---
+
+## 📦 Installation
+
+```bash
+git clone <repo-url>
+cd ai-dental-assistant
+npm install
+```
+
+---
+
+## 🔑 Environment Variables
+
+Create `.env` file and Add next values:
+
+```
+DATABASE_URL=
+CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+VAPI_API_KEY=
+RESEND_API_KEY=
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+NEXT_PUBLIC_VAPI_PROJECT_ID=
+```
+
+---
+
+## 🗄️ Database Setup
+
+run migrations:
+
+```bash
+npx prisma migrate dev
+```
+
+push schema to production:
+
+```bash
+npx prisma migrate deploy
+```
+
+---
+
+## 🧠 Running the Project
+
+### Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Production Build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📊 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+/src
+  /app
+    /admin
+    /api
+    /appointments
+    /dashboard
+    /pro
+    /voice
+    favicon.ico
+    globals.css
+    layout.tsx
+    page.tsx
+  /components
+  /hooks
+  /lib
+/prisma
+/public
+.env
+middleware.ts
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🖥️ Scripts
 
-## Deploy on Vercel
+* `npm run dev` → Start development
+* `npm run build` → Build for Production
+* `npm start` → Start production build
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📸 Screenshots
+
+
+---
+
+## 🎥 Demo Video
+
+
+---
+
+## 📝 License
+
+MIT
+
+---
+
+## ✨ Author
+
+Developed by Mahmoud Qasem — Frontend Developer
